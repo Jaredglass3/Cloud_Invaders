@@ -14,6 +14,9 @@ pygame.display.set_caption("Cloud Invaders")
 cloud_image = pygame.image.load('cloud.png')
 enemy_image = pygame.image.load('enemy.png')
 
+# Load the projectile image
+projectile_image = pygame.image.load('projectile.png')
+
 # Create the player object
 class Player(pygame.sprite.Sprite):
     def __init__(self):
