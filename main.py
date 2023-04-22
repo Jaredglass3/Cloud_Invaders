@@ -5,24 +5,79 @@ from enum import Enum
 
 # Initialize Pygame
 pygame.init()
-pygame.mixer.init()
 
-# Set up display
-WIDTH, HEIGHT = 800, 600
+# Screen dimensions
+WIDTH = 800
+HEIGHT = 600
+
+# Create a screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Cloud Invaders")
 
-# Set up assets
-BACKGROUND = pygame.image.load("assets/background.png").convert()
-PLAYER_IMG = pygame.image.load("assets/player.png").convert_alpha()
-ENEMY_IMG = pygame.image.load("assets/enemy.png").convert_alpha()
-LIGHTNING_IMG = pygame.image.load("assets/lightning.png").convert_alpha()
+# Player class
+class Player(pygame.sprite.Sprite):
+    def __init__(self, x, y, width, height):
+        super().__init__()
+        self.image = pygame.Surface((width, height))
+        self.image.fill((255, 255, 255))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.speed = 5
 
-# Set up clock
-clock = pygame.time.Clock()
+    def update(self):
+        keys = pygame.key.get_pressed()
+        if keys[K_LEFT]:
+            self.rect.move_ip(-self.speed, 0)
+        if keys[K_RIGHT]:
+            self.rect.move_ip(self.speed, 0)
 
-# Custom classes
-# (Player, Enemy, and Lightning classes remain the same)
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self, x, y, width, height):
+        super().__init__()
+        self.image = pygame.Surface((width, height))
+        self.image.fill((255, 0, 0))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.speed = 1
+        self.direction = 1
+
+    def update(self):
+        self.rect.move_ip(0, self.speed)
+        self.rect.move_ip(self.speed * self.direction, 0)
+        if self.rect.right >= WIDTH or self.rect.left <= 0:
+            self.direction *= -1
+            self.rect.move_ip(0, self.speed)
+
+class Lightning(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface((5, 20))
+        self.image.fill((255, 255, 0))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.speed = 10
+
+    def update(self):
+        self.rect.move_ip(0, -self.speed)
+        if self.rect.y < 0:
+            self.kill()
+
+# Create player and sprite groups
+player = Player(WIDTH // 2, HEIGHT - 50, 50, 50)
+enemies = pygame.sprite.Group()
+lightning_bolts = pygame.sprite.Group()
+all_sprites = pygame.sprite.Group()
+all_sprites.add(player)
+
+# Create a 10x10 grid of enemies
+ENEMY_SPACING = 80
+for i in range(10):
+    for j in range(10):
+        enemy = Enemy(ENEMY_SPACING * i, ENEMY_SPACING * j, 50, 50)
+        all_sprites.add(enemy)
+        enemies.add(enemy)
 
 # Game state enum
 class GameState(Enum):
@@ -33,33 +88,32 @@ class GameState(Enum):
 # Initialize game state
 game_state = GameState.PLAYING
 
-# Define ENEMY_SPACING constant
-ENEMY_SPACING = 80
-
-# Initialize player, enemies, lightning_bolts, and all_sprites groups
-player = Player(WIDTH // 2, HEIGHT - 50, 50, 50)
-enemies = pygame.sprite.Group()
-lightning_bolts = pygame.sprite.Group()
-all_sprites = pygame.sprite.Group()
-all_sprites.add(player)
-
-for i in range(10):
-    for j in range(10):
-        enemy = Enemy(ENEMY_SPACING * i, ENEMY_SPACING * j, 50, 50)
-        all_sprites.add(enemy)
-        enemies.add(enemy)
-
 # Main game loop
-while True:
-    # (Event handling and game logic remain the same)
+while game_state == GameState.PLAYING:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == KEYDOWN and event.key == K_SPACE:
+            lightning = Lightning(player.rect.x + 22, player.rect.y)
+            all_sprites.add(lightning)
+            lightning_bolts.add(lightning)
 
-    if game_state == GameState.GAME_OVER or game_state == GameState.VICTORY:
-        font = pygame.font.Font(None, 36)
-        if game_state == GameState.GAME_OVER:
-            text = font.render("Game Over! Press R to restart or Q to quit", 1, (255, 255, 255))
-        else:
-            text = font.render("Victory! Press R to restart or Q to quit", 1, (255, 255, 255))
+    # Update all sprites
+    all_sprites.update()
 
-        screen.blit(BACKGROUND, (0, 0))
-        screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
-        pygame.display.flip()
+    # Collision detection
+    pygame.sprite.groupcollide(enemies, lightning_bolts, True, True)
+
+    # Check for victory
+    if len(enemies) == 0:
+        game_state = GameState.VICTORY
+
+    screen.fill((0, 0, 0))
+    all_sprites.draw(screen)
+    pygame.display.flip()
+
+if game_state == GameState.VICTORY:
+    print("You won!")
+else:
+    print("Game Over.")
