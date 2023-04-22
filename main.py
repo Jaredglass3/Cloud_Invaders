@@ -24,7 +24,7 @@ clock = pygame.time.Clock()
 class Player(pygame.sprite.Sprite):
     # ... (Same as before)
 
-class Enemy(pygame.sprite.Sprite):
+ class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         super().__init__()
         self.image = ENEMY_IMG
@@ -40,7 +40,7 @@ class Lightning(pygame.sprite.Sprite):
     # ... (Same as before)
 
 # Create player and sprite groups
-player = Player(WIDTH // 2, HEIGHT - 50, 50, 50)
+ player = Player(WIDTH // 2, HEIGHT - 50, 50, 50)
 enemies = pygame.sprite.Group()
 lightning_bolts = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
