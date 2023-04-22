@@ -22,9 +22,25 @@ clock = pygame.time.Clock()
 
 # Custom classes
 class Player(pygame.sprite.Sprite):
-    # ... (Same as before)
+    def __init__(self, x, y, width, height):
+        super().__init__()
+        self.image = PLAYER_IMG
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.speed = 5
 
- class Enemy(pygame.sprite.Sprite):
+    def update(self, pressed_keys):
+        if pressed_keys[K_LEFT]:
+            self.rect.move_ip(-self.speed, 0)
+        if pressed_keys[K_RIGHT]:
+            self.rect.move_ip(self.speed, 0)
+        if pressed_keys[K_UP]:
+            self.rect.move_ip(0, -self.speed)
+        if pressed_keys[K_DOWN]:
+            self.rect.move_ip(0, self.speed)
+
+class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         super().__init__()
         self.image = ENEMY_IMG
@@ -37,10 +53,21 @@ class Player(pygame.sprite.Sprite):
         self.rect.move_ip(0, self.speed)
 
 class Lightning(pygame.sprite.Sprite):
-    # ... (Same as before)
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = LIGHTNING_IMG
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.speed = -5
+
+    def update(self):
+        self.rect.move_ip(0, self.speed)
+        if self.rect.y < 0:
+            self.kill()
 
 # Create player and sprite groups
- player = Player(WIDTH // 2, HEIGHT - 50, 50, 50)
+player = Player(WIDTH // 2, HEIGHT - 50, 50, 50)
 enemies = pygame.sprite.Group()
 lightning_bolts = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
