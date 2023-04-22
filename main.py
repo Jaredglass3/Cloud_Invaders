@@ -22,19 +22,7 @@ clock = pygame.time.Clock()
 
 # Custom classes
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height):
-        super().__init__()
-        self.image = PLAYER_IMG
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.speed = 5
-
-    def update(self, pressed_keys):
-        if pressed_keys[K_LEFT]:
-            self.rect.move_ip(-self.speed, 0)
-        if pressed_keys[K_RIGHT]:
-            self.rect.move_ip(self.speed, 0)
+    # ... (Same as before)
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
@@ -43,20 +31,13 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-
-class Lightning(pygame.sprite.Sprite):
-    def __init__(self, x, y):
-        super().__init__()
-        self.image = LIGHTNING_IMG
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.speed = 10
+        self.speed = 1
 
     def update(self):
-        self.rect.move_ip(0, -self.speed)
-        if self.rect.y < -self.rect.height:
-            self.kill()
+        self.rect.move_ip(0, self.speed)
+
+class Lightning(pygame.sprite.Sprite):
+    # ... (Same as before)
 
 # Create player and sprite groups
 player = Player(WIDTH // 2, HEIGHT - 50, 50, 50)
@@ -65,40 +46,46 @@ lightning_bolts = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
+# Create a 10x10 grid of enemies
+ENEMY_SPACING = 80
+for i in range(10):
+    for j in range(10):
+        enemy = Enemy(ENEMY_SPACING * i, ENEMY_SPACING * j, 50, 50)
+        all_sprites.add(enemy)
+        enemies.add(enemy)
+
 # Main game loop
 running = True
 while running:
     clock.tick(30)
-    
+
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
         if event.type == KEYDOWN:
             if event.key == K_SPACE:
-                lightning = Lightning(player.rect.x + player.rect.width // 2, player.rect.y)
-                lightning_bolts.add(lightning)
+                lightning = Lightning(player.rect.x + player.rect.width // 2 - 5, player.rect.y)
                 all_sprites.add(lightning)
+                lightning_bolts.add(lightning)
 
-    # Update
     pressed_keys = pygame.key.get_pressed()
     player.update(pressed_keys)
-    lightning_bolts.update()
 
-    # Check for collisions
-    hits = pygame.sprite.spritecollide(player, enemies, False)
-    if hits:
-        print("Player was hit!")
-        running = False
+    for lightning in lightning_bolts:
+        lightning.update()
+        hit_enemies = pygame.sprite.spritecollide(lightning, enemies, True)
+        if hit_enemies:
+            lightning.kill()
 
-    # Spawn enemies
-    if random.random() < 0.01:
-        enemy = Enemy(random.randint(0, WIDTH - 50), random.randint(0, HEIGHT // 2), 50, 50)
-        enemies.add(enemy)
-        all_sprites.add(enemy)
+    for enemy in enemies:
+        enemy.update()
+        if pygame.sprite.collide_rect(player, enemy):
+            running = False
+            print("Player was hit!")
 
-    # Draw
     screen.blit(BACKGROUND, (0, 0))
-    all_sprites.draw(screen)
+    for entity in all_sprites:
+        screen.blit(entity.image, entity.rect)
     pygame.display.flip()
 
 pygame.quit()
