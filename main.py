@@ -17,15 +17,6 @@ HEIGHT = 600
 # Create a screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
-# Load sounds
-shoot_sound = pygame.mixer.Sound('shoot.wav')
-explosion_sound = pygame.mixer.Sound('explosion.wav')
-game_over_sound = pygame.mixer.Sound('game_over.wav')
-
-# Load background music and play it in a loop
-pygame.mixer.music.load('background_music.mp3')
-pygame.mixer.music.play(-1)
-
 # Player class
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -50,14 +41,12 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.speed = 0.25
-        self.direction = 1
+        self.speed = random.randint(1, 5)
 
     def update(self):
-        self.rect.move_ip(self.speed * self.direction, 0)
-        if self.rect.right >= WIDTH or self.rect.left <= 0:
-            self.direction *= -1
-            self.rect.move_ip(0, self.speed * 10)
+        self.rect.move_ip(0, self.speed)
+        if self.rect.top > HEIGHT:
+            self.kill()
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -70,67 +59,70 @@ class Bullet(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.move_ip(0, -self.speed)
-        if self.rect.y < 0:
+        if self.rect.bottom < 0:
             self.kill()
 
-# Create player and sprite groups
-player = Player(WIDTH // 2, HEIGHT - 50)
-enemies = pygame.sprite.Group()
-bullets = pygame.sprite.Group()
-all_sprites = pygame.sprite.Group()
-all_sprites.add(player)
+class Game:
+    def __init__(self):
+        self.score = 0
+        self.font = pygame.font.Font(None, 36)
+        self.enemies = pygame.sprite.Group()
+        self.bullets = pygame.sprite.Group()
+        self.all_sprites = pygame.sprite.Group()
+        self.player = Player(WIDTH//2, HEIGHT-50)
+        self.all_sprites.add(self.player)
 
-# Create a 10x10 grid of enemies
-ENEMY_SPACING = 80
-for i in range(10):
-    for j in range(10):
-        enemy = Enemy(ENEMY_SPACING * i, ENEMY_SPACING * j)
-        all_sprites.add(enemy)
-        enemies.add(enemy)
+        for i in range(10):
+            self.create_enemy()
 
-# Game state enum
-class GameState(Enum):
-    PLAYING = 0
-    GAME_OVER = 1
-    VICTORY = 2
+    def create_enemy(self):
+        enemy = Enemy(random.randint(0, WIDTH), random.randint(-HEIGHT, 0))
+        self.enemies.add(enemy)
+        self.all_sprites.add(enemy)
 
-# Initialize game state
-game_state = GameState.PLAYING
+    def run(self):
+        running = True
+        clock = pygame.time.Clock()
 
-# Main game loop
-while game_state == GameState.PLAYING:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
-        if event.type == KEYDOWN and event.key == K_SPACE:
-            shoot_sound.play()
-            bullet = Bullet(player.rect.x + 22, player.rect.y)
-            all_sprites.add(bullet)
-            bullets.add(bullet)
+        while running:
+            clock.tick(60)
 
-    # Update all sprites
-    all_sprites.update()
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    running = False
+                elif event.type == KEYDOWN:
+                    if event.key == K_SPACE:
+                        bullet = Bullet(self.player.rect.centerx, self.player.rect.top)
+                        self.bullets.add(bullet)
+                        self.all_sprites.add(bullet)
+                        shoot_sound.play()
 
-    # Collision detection
-    collisions = pygame.sprite.groupcollide(enemies, bullets, True, True)
-    if collisions:
-        explosion_sound.play()
+            self.all_sprites.update()
 
-    # Check for victory
-    if len(enemies) == 0:
-        game_state = GameState.VICTORY
+            hits = pygame.sprite.groupcollide(self.enemies, self.bullets, True, True)
+            for hit in hits:
+                self.create_enemy()
+                self.score += 1
+                explosion_sound.play()
 
-    # Check for game over
-    if pygame.sprite.spritecollideany(player, enemies):
-        game_over_sound.play()
-        game_state = GameState.GAME_OVER
+            hits = pygame.sprite.spritecollide(self.player, self.enemies, False)
+            if hits:
+                game_over_sound.play()
+                running = False
 
-    screen.fill((0, 0, 0))
-    all_sprites.draw(screen)
-    pygame.display.flip()
+            screen.fill((0, 0, 0))
+            screen.blit(pygame.image.load('background_sprite.png').convert(), (0, 0))
 
-if game_state == GameState.VICTORY:
-    print("You won!")
-else:
-    print("Game Over.")
+            self.all_sprites.draw(screen)
+
+            score_text = self.font.render(f'Score: {self.score}', True, (255, 255, 255))
+            screen.blit(score_text, (10, 10))
+
+            pygame.display.flip()
+
+        pygame.quit()
+        sys.exit()
+
+if __name__ == '__main__':
+    game = Game()
+    game.run()
