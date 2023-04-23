@@ -21,7 +21,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load('player_sprite.png').convert_alpha()
+        self.image = pygame.image.load('assets/player_sprite.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load('enemy_sprite.png').convert_alpha()
+        self.image = pygame.image.load('assets/enemy_sprite.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -51,7 +51,7 @@ class Enemy(pygame.sprite.Sprite):
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load('bullet_sprite.png').convert_alpha()
+        self.image = pygame.image.load('assets/bullet_sprite.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -111,7 +111,7 @@ class Game:
                 running = False
 
             screen.fill((0, 0, 0))
-            screen.blit(pygame.image.load('background_sprite.png').convert(), (0, 0))
+            screen.blit(pygame.image.load('assets/background_sprite.png').convert(), (0, 0))
 
             self.all_sprites.draw(screen)
 
