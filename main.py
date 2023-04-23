@@ -18,8 +18,8 @@ mixer.music.load("background.wav")
 mixer.music.play(-1)
 
 # Caption and Icon
-pygame.display.set_caption("Cloud Invader")
-icon = pygame.image.load('ufo.png')
+pygame.display.set_caption("Cloud Invaders")
+icon = pygame.image.load('assets/ufo.png')
 pygame.display.set_icon(icon)
 
 # Player
@@ -119,7 +119,7 @@ while running:
                 playerX_change = 5
             if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
-                    bulletSound = mixer.Sound("laser.wav")
+                    bulletSound = mixer.Sound("assets/laser.wav")
                     bulletSound.play()
                     # Get the current x cordinate of the spaceship
                     bulletX = playerX
@@ -159,7 +159,7 @@ while running:
         # Collision
         collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)
         if collision:
-            explosionSound = mixer.Sound("explosion.wav")
+            explosionSound = mixer.Sound("assets/explosion.wav")
             explosionSound.play()
             bulletY = 480
             bullet_state = "ready"
