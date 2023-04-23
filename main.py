@@ -11,8 +11,8 @@ pygame.init()
 pygame.mixer.init()
 
 # Screen dimensions
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 1280
+HEIGHT = 720
 
 # Create a screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
