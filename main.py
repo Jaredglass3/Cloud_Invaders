@@ -17,7 +17,7 @@ mixer.music.load('assets/background.wav')
 mixer.music.play(-1)
 
 # Title and Icon
-pygame.display.set_caption("Cloud Invaderz")
+pygame.display.set_caption("Cloud Invaders")
 icon = pygame.image.load('assets/cloud.png')
 pygame.display.set_icon(icon)
 
@@ -88,7 +88,7 @@ def is_collision(enemyX, enemyY, bulletX, bulletY):
 def main_menu():
     title_font = pygame.font.Font('freesansbold.ttf', 80)
     menu_font = pygame.font.Font('freesansbold.ttf', 32)
-    title_text = title_font.render('Cloud Invaderz', True, (255, 255, 255))
+    title_text = title_font.render('Cloud Invaders', True, (255, 255, 255))
     start_text = menu_font.render('Press Enter to play', True, (255, 255, 255))
 
     cloud_image = pygame.image.load("assets/cloud.png")  # Load the cloud.png image
