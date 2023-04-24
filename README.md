@@ -41,3 +41,4 @@ The Cloud Invaderz game was developed by [your name here]. The game was inspired
 ## License
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+Authors: Zach Gamble and Jared Glass
