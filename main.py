@@ -18,7 +18,7 @@ mixer.music.play(-1)
 
 # Title and Icon
 pygame.display.set_caption("Cloud Invaderz")
-icon = pygame.image.load('assets/ufo.png')
+icon = pygame.image.load('assets/cloud.png')
 pygame.display.set_icon(icon)
 
 # Player
@@ -91,8 +91,8 @@ def main_menu():
     title_text = title_font.render('Cloud Invaderz', True, (255, 255, 255))
     start_text = menu_font.render('Press Enter to play', True, (255, 255, 255))
 
-    ufo_image = pygame.image.load("assets/ufo.png")  # Load the ufo.png image
-    ufo_rect = ufo_image.get_rect(center=(400, 425))  # Center the ufo image below the text
+    cloud_image = pygame.image.load("assets/cloud.png")  # Load the cloud.png image
+    cloud_rect = cloud_image.get_rect(center=(400, 425))  # Center the cloud image below the text
 
     menu = True
     while menu:
@@ -103,7 +103,7 @@ def main_menu():
 
         screen.blit(title_text, title_rect)
         screen.blit(start_text, start_rect)
-        screen.blit(ufo_image, ufo_rect)  # Draw the ufo image on the screen
+        screen.blit(cloud_image, cloud_rect)  # Draw the cloud image on the screen
 
         pygame.display.update()
 
