@@ -36,9 +36,9 @@ Pygame is a popular game development library for Python that provides a simple a
 
 ## Credits
 
-The Cloud Invaderz game was developed by [your name here]. The game was inspired by Space Invaders and was developed using Pygame, a popular game development library for Python.
+The Cloud Invaderz game was developed by Zach Gamble and Jared Glass. The game was inspired by Space Invaders and was developed using Pygame, a popular game development library for Python.
 
 ## License
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
-Authors: Zach Gamble and Jared Glass
+
