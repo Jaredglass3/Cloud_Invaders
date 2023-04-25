@@ -1,6 +1,6 @@
-# Cloud Invaderz
+# Cloud Invaders
 
-Cloud Invaderz is a game developed using Pygame, inspired by Space Invaders. In this game, the player controls a spaceship and shoots down clouds to earn points.
+Cloud Invaders is a game developed using Pygame, inspired by Space Invaders. In this game, the player controls a storm cloud and shoots down other clouds to earn points.
 
 ## Instructions for Running the Game:
 
@@ -38,7 +38,7 @@ Pygame is a popular game development library for Python that provides a simple a
 
 ## Credits
 
-The Cloud Invaderz game was developed by Zach Gamble and Jared Glass. The game was inspired by Space Invaders and was developed using Pygame, a popular game development library for Python.
+The Cloud Invaders game was developed by Zach Gamble and Jared Glass. The game was inspired by Space Invaders and was developed using Pygame, a popular game development library for Python.
 
 ## License
 
