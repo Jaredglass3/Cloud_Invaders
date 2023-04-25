@@ -7,6 +7,8 @@ Cloud Invaderz is a game developed using Pygame, inspired by Space Invaders. In 
 1. First, make sure you have Python 3 installed on your computer. You can download it from the official website: [Python](https://www.python.org/downloads/).
 
 2. Next, install Pygame using pip in the command prompt or terminal. Type the following command:
+
+pip install pygame
    
 3. Clone or download the game from the [GitHub repository](https://github.com/Jaredglass3/Cloud_Invaders).
 
@@ -14,7 +16,7 @@ Cloud Invaderz is a game developed using Pygame, inspired by Space Invaders. In 
 
 5. Run the following command to start the game: Python main.py
 
-6. The game window will open, and you can start playing. Use the arrow keys to move the spaceship and the space bar to shoot. Powerups are available that allow your bullets to pierce through clouds.
+6. The game window will open, and you can start playing. Use the arrow keys to move the cloud and the space bar to shoot.
 
 ## Pros and Cons of Pygame:
 
