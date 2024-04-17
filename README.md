@@ -4,7 +4,7 @@ Cloud Invaders is a game developed by Jared Glass (LinkedIn: https://www.linkedi
 
 ## Why Cloud Invaders?
 
-We chose cloud invaders as or hacksprint project a homage to the classic arcade game Space Invaders as this was our first time attempting game development and we wanted to show our appreciation to one of the pioneers of the game development world.
+We chose cloud invaders as our hacksprint project a homage to the classic arcade game Space Invaders as this was our first time attempting game development and we wanted to show our appreciation to one of the pioneers of the game development world.
 
 ## What problems did we face during this project?
 
