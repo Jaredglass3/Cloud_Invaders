@@ -1,6 +1,14 @@
 # Cloud Invaders
 
-Cloud Invaders is a game developed using Pygame, inspired by Space Invaders. In this game, the player controls a storm cloud and shoots down other clouds to earn points.
+Cloud Invaders is a game developed by Jared Glass (LinkedIn: https://www.linkedin.com/in/jared-glass-0623k/ Twitter: https://twitter.com/GlassJared352) And Zack Gamble using Pygame, inspired by Space Invaders. In this game, the player controls a storm cloud and shoots down other clouds to earn points.
+
+## Why Cloud Invaders?
+
+We chose cloud invaders as or hacksprint project a homage to the classic arcade game Space Invaders as this was our first time attempting game development and we wanted to show our appreciation to one of the pioneers of the game development world.
+
+## What problems did we face during this project?
+
+During the development of this project we faced several issues, Primarily being that this was our first attempt at using Pygame. We also had several schedualing conflicts that we had to work out as both our lives were rather busy at the time, Though for differing reasons. We got past this by meeting up and outlining what aspects of the project we'd each be working on and ensuring that we had set another date that we were sure we'd be able to meet up for, Even if we weren't able to get ahold of one another. We also faced the problem of deciding what we wanted included in the game as we had a limited amount of time to add features and we knew we couldn't add everything, So we discussed and decided what could be feasibly added and what could be added later on after the projects due date.
 
 ## Instructions for Running the Game:
 
